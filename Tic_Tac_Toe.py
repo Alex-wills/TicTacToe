@@ -162,31 +162,24 @@ def victory_for(board, sign):
 
 board = create_board()
 num_of_moves = 1
-# #
-# display_board(board)
-# board[0][2] = '0'
-# board[1][2] = '0'
-# board[2][2] = '0'
-# victory_for(board, '0')
-# display_board(board)
+
 #
-# print(victory_for(board, '0'))
-#
-# while num_of_moves < 9:
-#     display_board(board)
-#     enter_move(board)
-#     display_board(board)
-#     if victory_for(board, '0'):
-#         print("Well done you win!!!!!")
-#         quit()
-#     draw_move(board)
-#     display_board(board)
-#     if victory_for(board, 'X'):
-#         print("Unlucky Computer wins!!!!!")
-#         quit()
-#
-#     num_of_moves += 2
-#
-# print("*****************************")
-# print("*********GAME OVER***********")
-# print("*****************************")
+while num_of_moves < 9:
+    display_board(board)
+    enter_move(board)
+    display_board(board)
+    if victory_for(board, '0'):
+        print("Well done you win!!!!!")
+        break
+    draw_move(board)
+    display_board(board)
+    if victory_for(board, 'X'):
+        print("Unlucky Computer wins!!!!!")
+        break
+
+    num_of_moves += 2
+
+print("*****************************")
+print("*********GAME OVER***********")
+print("*****************************")
+quit()
