@@ -103,23 +103,18 @@ class Player:
     checks the input, and updates the board according to the user's decision.
     '''
 
-    def enter_move(self, b):
+    def enter_move(self, b, inp):
 
         num_to_pos = b.make_list_of_free_fields()
-        valid = False
-        move = (0, 0)
 
-        while not valid:
-            try:
-                usr_inp = input('Enter your move: ')
-                move = num_to_pos[usr_inp]
-            except KeyError as e:
-                print(e.args[0], "is already taken, pick again")
-                continue
-            else:
-                valid = True
+        try:
+            usr_inp = inp
+            move = num_to_pos[usr_inp]
+        except KeyError:
+            return False
 
         b.board[move[0]][move[1]] = self.sign
+        return True
 
     '''
     This method accepts the board's current status, computes a possible move, and 
@@ -213,22 +208,36 @@ if __name__ == '__main__':
     b = Board(3, 3)
     b.fill_board()
     num_of_moves = 0
+    valid = False
 
     #
-    while num_of_moves < 9:
+    while True:
         b.display_board()
-        user.enter_move(b)
+
+        # check to see if user move is valid
+        while not valid:
+            usr_inp = input('Enter your move: ')
+            if user.enter_move(b, usr_inp):
+                break
+            else:
+                print("this space is already taken, pick again")
+                continue
+        num_of_moves += 1
         b.display_board()
         if user.victory_for(b):
             print("Well done you win!!!!!")
             break
+
+        if num_of_moves == 9:
+            break
+
+        # computer's move
         cpu.draw_move(b)
+        num_of_moves += 1
         b.display_board()
         if cpu.victory_for(b):
             print("Unlucky Computer wins!!!!!")
             break
-
-        num_of_moves += 2
 
     print("*****************************")
     print("*********GAME OVER***********")

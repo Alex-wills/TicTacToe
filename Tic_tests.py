@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+# from unittest.mock import patch
 
 
 from Tic_Tac_Toe import Board, Player
@@ -67,16 +67,26 @@ class TestTicTacToe(unittest.TestCase):
 
         self.assertEqual(cpu.victory_for(b), True)
 
+    def test_pick_chosen_block(self):
+        b = Board(3, 3)
+        user = Player('0')
+        b.board[1][1] = 'X'  # Equivalent to choosing position 5
 
-# Test broken as it gets stuck in infinite loop of '5 is already taken, pick again'
+        self.assertEqual(user.enter_move(b, 5), False)
 
-# @patch('builtins.input', lambda *args: '5')
-# def test_pick_chosen_block(self):
-#     b = Board(3, 3)
-#     user = Player('0')
-#     b.board[1][1] = 'X'  # Equivalent to choosing position 5
-#
-#     user.enter_move(b)  # @patch enters 5
+    def test_make_list_of_free_fields(self):
+        b = Board(3, 3)
+        b.fill_board()
+        b.board[1][1] = 'X'  # Equivalent to choosing position 5
+
+        true_dic = {
+            '1': (0, 0), '2': (0, 1), '3': (0, 2),
+            '4': (1, 0), '6': (1, 2),
+            '7': (2, 0), '8': (2, 1), '9': (2, 2)
+        }
+        test_dic = b.make_list_of_free_fields()
+
+        self.assertEqual(test_dic, true_dic)
 
 
 if __name__ == '__main__':
