@@ -4,7 +4,7 @@ from random import randrange
 '''
 This class initialises an NxN board and places an appropriate number in any free spaces within the board.
 
-(Board class generalised apart from display_board() would need a different display format)
+(Board class generalised apart from display_board() which would need a different display format for a different game)
 '''
 
 
@@ -14,7 +14,6 @@ class Board:
         self.col = col
         self.board = [['empty' for column in range(col)] for row in range(row)]
         self.fieldNum = [str(num) for num in range(1, (self.row * self.col) + 1)]
-
 
     '''
     This method fills the NxN board with a corresponding number to each
@@ -30,8 +29,8 @@ class Board:
                    .
     
     '''
-    def fill_board(self):
 
+    def fill_board(self):
 
         ctr = 0
         for row in range(self.row):
@@ -39,14 +38,14 @@ class Board:
                 self.board[row][column] = str(self.fieldNum[ctr])
                 ctr += 1
 
-
     '''
     This method browses the board and builds a list of all the free squares, 
-    then creates a dictionary for each square's corresponding number to its position.
+    then creates a dictionary for each square's corresponding number to its position tuple.
+    
+    eg. 1 :(0,0), 2:(0,1)
     '''
+
     def make_list_of_free_fields(self):
-        # The function browses the board and builds a list of all the free squares;
-        # the list consists of tuples, while each tuple is a pair of row and column numbers.
         free_fields = []
         num_to_pos = {}
 
@@ -68,6 +67,7 @@ class Board:
     This method prints the Board instance to the terminal in the format of 3x3 tic-tac-toe.
      This will have to be overridden if another game board is required to be displayed
     '''
+
     def display_board(self):
 
         print('+-------+-------+-------+')
@@ -83,9 +83,6 @@ class Board:
         print('|  ', self.board[2][0], '  |  ', self.board[2][1], '  |  ', self.board[2][2], '  |')
         print('|       |       |       |')
         print('+-------+-------+-------+')
-
-
-# players class
 
 
 '''
@@ -110,14 +107,14 @@ class Player:
 
         num_to_pos = b.make_list_of_free_fields()
         valid = False
-        move = (0,0)
+        move = (0, 0)
 
         while not valid:
             try:
                 usr_inp = input('Enter your move: ')
                 move = num_to_pos[usr_inp]
             except KeyError as e:
-                print(e.args[0], " is already taken, pick again")
+                print(e.args[0], "is already taken, pick again")
                 continue
             else:
                 valid = True
@@ -151,7 +148,7 @@ class Player:
         # The function analyzes the board's status in order to check if
         # the player using 'O's or 'X's has won the game
 
-        # checks####################################################################################
+        # -----------------------------checks---------------------------------
         # horizontal check
         def h_check(b, sign, row, column):
             if b.board[row][column + 1] == sign and b.board[row][column + 2] == sign:
@@ -180,7 +177,7 @@ class Player:
             else:
                 return False
 
-        ##########################################################################################
+        # --------------------------------------------------------------------
 
         # negative diagonal checks for top left field
         if b.board[0][0] == self.sign:
